@@ -1,0 +1,39 @@
+{
+  "name": "coffee-express-boilerplate",
+  "version": "0.1.1",
+  "description": "A boilerplate CoffeeScript/Express template",
+  "main": "server.coffee",
+  "author": {
+    "name": "Brendan Goodenough",
+    "email": "brendan@goodenough.nz",
+    "url": "https://www.goodenough.nz"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nerdenough/coffee-express-boilerplate.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nerdenough/coffee-express-boilerplate/issues"
+  },
+  "homepage": "https://github.com/nerdenough/coffee-express-boilerplate#readme",
+  "scripts": {
+    "start": "nodemon server.coffee",
+    "test": "gulp test"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "connect-coffee-script": "^0.2.1",
+    "cookie-parser": "^1.4.1",
+    "express": "^4.13.4",
+    "morgan": "^1.7.0",
+    "nib": "^1.1.0",
+    "pug": "^2.0.0-alpha1",
+    "stylus": "^0.54.2"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "gulp": "^3.9.1",
+    "gulp-mocha": "^2.2.0"
+  }
+}
