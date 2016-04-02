@@ -1,57 +1,71 @@
-game = new Phaser.Game 400, 490
+game = new Phaser.Game 400, 490, Phaser.AUTO, 'game'
 
-mainState =
+class MainState
   preload: ->
     game.load.image 'bird', 'assets/bird.png'
     game.load.image 'pipe', 'assets/pipe.png'
     game.load.audio 'jump', 'assets/jump.wav'
 
   create: ->
+    # Scale for mobile browsers
     if game.device.desktop is false
       game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL
+
       game.scale.setMinMax game.width / 2, game.height / 2,
         game.width, game.height
+
       game.scale.pageAlignHorizontally = true
       game.scale.pageAlignVertically = true
 
+    # Set background and physics
     game.stage.backgroundColor = '#5095e6'
     game.physics.startSystem Phaser.Physics.ARCADE
 
-    this.score = 0
-    this.labelScore = game.add.text 20, 20, '0',
+    # Initialise the score
+    @score = -1
+    @labelScore = game.add.text 20, 20, '0',
       font: '30px Arial'
       fill: '#ffffff'
 
-    this.bird = game.add.sprite 100, 245, 'bird'
+    # Initialise the bird
+    @bird = game.add.sprite 100, 245, 'bird'
     game.physics.arcade.enable this.bird
-    this.bird.body.gravity.y = 1000
-    this.bird.anchor.setTo -0.2, 0.5
+    @bird.body.gravity.y = 1000
+    @bird.anchor.setTo -0.2, 0.5
 
+    # Initialise the pipes
     this.pipes = game.add.group()
-    this.timer = game.time.events.loop 1500, this.addRowOfPipes, this
+    @addRowOfPipes()
+    @timer = game.time.events.loop 1500, @addRowOfPipes, this
 
-    this.jumpSound = game.add.audio 'jump'
+    # Add sound effects
+    @jumpSound = game.add.audio 'jump'
 
+    # Set controls
     spaceKey = game.input.keyboard.addKey Phaser.Keyboard.SPACEBAR
-    spaceKey.onDown.add this.jump, this
-    game.input.onDown.add(this.jump, this)
+    spaceKey.onDown.add @jump, this
+    game.input.onDown.add @jump, this
 
   update: ->
-    if this.bird.y < 0 or this.bird.y > 490
-      this.restartGame()
+    # Out of bounds
+    if @bird.y < 0 or @bird.y > 490
+      @restartGame()
 
-    game.physics.arcade.overlap this.bird, this.pipes, this.hitPipe, null, this
+    # Collision detection
+    game.physics.arcade.overlap @bird, @pipes, @hitPipe, null, this
 
-    if this.bird.angle < 20
-      this.bird.angle += 1
+    # Rotate the bird
+    if @bird.angle < 20
+      @bird.angle += 1
 
   jump: ->
-    if this.bird.alive is false
+    if @bird.alive is false
       return
 
-    this.bird.body.velocity.y = -350
-    this.jumpSound.play()
+    @bird.body.velocity.y = -350
+    @jumpSound.play()
 
+    # Reset bird rotation
     animation = game.add.tween this.bird
     animation.to angle: -20, 100
     animation.start()
@@ -61,8 +75,9 @@ mainState =
 
   addOnePipe: (x, y) ->
     pipe = game.add.sprite x, y, 'pipe'
-    this.pipes.add pipe
+    @pipes.add pipe
 
+    # Move pipes to the left
     game.physics.arcade.enable pipe
     pipe.body.velocity.x = -200
 
@@ -70,23 +85,24 @@ mainState =
     pipe.outOfBoundsKill = true
 
   addRowOfPipes: ->
-    this.score += 1
-    this.labelScore.text = this.score
+    @score += 1
+    @labelScore.text = @score
 
-    hole = Math.floor(Math.random() * 5) + 1
+    # Generate random hole and fill pipes
+    hole = Math.floor(Math.random() * 9) + 1
     for i in [0 .. 12]
       if i != hole and i != hole + 1
-        this.addOnePipe 400, i * 40 + 10
+        @addOnePipe 400, i * 40 + 10
 
   hitPipe: ->
-    if this.bird.alive is false
+    if @bird.alive is false
       return
 
-    this.bird.alive = false
-    game.time.events.remove this.timer
-    this.pipes.forEach ((p) ->
+    @bird.alive = false
+    game.time.events.remove @timer
+    @pipes.forEach ((p) ->
       p.body.velocity.x = 0
     ), this
 
-game.state.add 'main', mainState
+game.state.add 'main', MainState
 game.state.start 'main'
