@@ -29,13 +29,15 @@ mainState =
     if this.bird.y < 0 or this.bird.y > 490
       this.restartGame()
 
-    game.physics.arcade.overlap this.bird, this.pipes, this.restartGame,
-      null, this
+    game.physics.arcade.overlap this.bird, this.pipes, this.hitPipe, null, this
 
     if this.bird.angle < 20
       this.bird.angle += 1
 
   jump: ->
+    if this.bird.alive is false
+      return
+
     this.bird.body.velocity.y = -350
 
     animation = game.add.tween this.bird
@@ -63,6 +65,16 @@ mainState =
     for i in [0 .. 12]
       if i != hole and i != hole + 1
         this.addOnePipe 400, i * 40 + 10
+
+  hitPipe: ->
+    if this.bird.alive is false
+      return
+
+    this.bird.alive = false
+    game.time.events.remove this.timer
+    this.pipes.forEach ((p) ->
+      p.body.velocity.x = 0
+    ), this
 
 game.state.add 'main', mainState
 game.state.start 'main'
