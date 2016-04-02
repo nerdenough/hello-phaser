@@ -10,6 +10,7 @@ coffeescript = require 'connect-coffee-script'
 
 # Custom routes
 index = require './routes/index'
+games = require './routes/games'
 
 # Stylus compile function for nib
 compile = (str, path) ->
@@ -44,6 +45,7 @@ app.use express.static path.join(__dirname, 'public')
 
 # Define routes
 app.use '/', index
+app.use '/games', games
 
 # Catch 404 errors
 # Forwarded to the error handlers

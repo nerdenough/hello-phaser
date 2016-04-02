@@ -2,9 +2,9 @@ game = new Phaser.Game 400, 490, Phaser.AUTO, 'game'
 
 class MainState
   preload: ->
-    game.load.image 'bird', 'assets/bird.png'
-    game.load.image 'pipe', 'assets/pipe.png'
-    game.load.audio 'jump', 'assets/jump.wav'
+    game.load.image 'bird', '../assets/flappy-bird/bird.png'
+    game.load.image 'pipe', '../assets/flappy-bird/pipe.png'
+    game.load.audio 'jump', '../assets/flappy-bird/jump.wav'
 
   create: ->
     # Scale for mobile browsers
