@@ -12,7 +12,7 @@ mainState =
     this.score = 0
     this.labelScore = game.add.text 20, 20, '0',
       font: '30px Arial'
-      fill: '#ffffffff'
+      fill: '#ffffff'
 
     this.bird = game.add.sprite 100, 245, 'bird'
     game.physics.arcade.enable this.bird
