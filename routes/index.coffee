@@ -4,6 +4,6 @@ router = express.Router()
 # GET: /
 router.get '/', (req, res) ->
   res.render 'index/index',
-    title: 'Hello, World!'
+    title: 'Flappy Bird'
 
 module.exports = router
