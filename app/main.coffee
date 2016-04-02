@@ -7,6 +7,13 @@ mainState =
     game.load.audio 'jump', 'assets/jump.wav'
 
   create: ->
+    if game.device.desktop is false
+      game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL
+      game.scale.setMinMax game.width / 2, game.height / 2,
+        game.width, game.height
+      game.scale.pageAlignHorizontally = true
+      game.scale.pageAlignVertically = true
+
     game.stage.backgroundColor = '#5095e6'
     game.physics.startSystem Phaser.Physics.ARCADE
 
@@ -27,6 +34,7 @@ mainState =
 
     spaceKey = game.input.keyboard.addKey Phaser.Keyboard.SPACEBAR
     spaceKey.onDown.add this.jump, this
+    game.input.onDown.add(this.jump, this)
 
   update: ->
     if this.bird.y < 0 or this.bird.y > 490
