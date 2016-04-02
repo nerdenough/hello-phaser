@@ -17,6 +17,7 @@ mainState =
     this.bird = game.add.sprite 100, 245, 'bird'
     game.physics.arcade.enable this.bird
     this.bird.body.gravity.y = 1000
+    this.bird.anchor.setTo -0.2, 0.5
 
     this.pipes = game.add.group()
     this.timer = game.time.events.loop 1500, this.addRowOfPipes, this
@@ -31,8 +32,15 @@ mainState =
     game.physics.arcade.overlap this.bird, this.pipes, this.restartGame,
       null, this
 
+    if this.bird.angle < 20
+      this.bird.angle += 1
+
   jump: ->
     this.bird.body.velocity.y = -350
+
+    animation = game.add.tween this.bird
+    animation.to angle: -20, 100
+    animation.start()
 
   restartGame: ->
     game.state.start 'main'
