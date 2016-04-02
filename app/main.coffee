@@ -4,6 +4,7 @@ mainState =
   preload: ->
     game.load.image 'bird', 'assets/bird.png'
     game.load.image 'pipe', 'assets/pipe.png'
+    game.load.audio 'jump', 'assets/jump.wav'
 
   create: ->
     game.stage.backgroundColor = '#5095e6'
@@ -22,6 +23,8 @@ mainState =
     this.pipes = game.add.group()
     this.timer = game.time.events.loop 1500, this.addRowOfPipes, this
 
+    this.jumpSound = game.add.audio 'jump'
+
     spaceKey = game.input.keyboard.addKey Phaser.Keyboard.SPACEBAR
     spaceKey.onDown.add this.jump, this
 
@@ -39,6 +42,7 @@ mainState =
       return
 
     this.bird.body.velocity.y = -350
+    this.jumpSound.play()
 
     animation = game.add.tween this.bird
     animation.to angle: -20, 100
