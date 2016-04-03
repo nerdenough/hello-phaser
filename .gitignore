@@ -37,4 +37,5 @@ jspm_packages
 public/css
 
 # Compiled JS
-public/js
+public/js/platformer
+public/js/flappy-bird
