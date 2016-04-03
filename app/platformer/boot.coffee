@@ -1,4 +1,4 @@
 class Boot
   create: ->
-    game.stage.backgroundColor = '#2c7ca8'
+    game.stage.backgroundColor = '#ad5b5b'
     game.state.start 'preloader'

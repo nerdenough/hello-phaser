@@ -7,6 +7,8 @@ class Preloader
     @text = game.add.text 32, 32, 'Loading ...', fill: '#ffffff'
 
     game.load.image 'player', '../assets/platformer/player.png'
+    game.load.image 'tileset', '../assets/platformer/tileset.png'
+    game.load.tilemap 'map', '../assets/platformer/level1.csv'
     game.load.start()
 
   loadStart: ->
