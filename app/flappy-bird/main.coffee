@@ -29,14 +29,14 @@ class MainState
 
     # Initialise the bird
     @bird = game.add.sprite 100, 245, 'bird'
-    game.physics.arcade.enable this.bird
+    game.physics.arcade.enable @bird
     @bird.body.gravity.y = 1000
     @bird.anchor.setTo -0.2, 0.5
 
     # Initialise the pipes
     this.pipes = game.add.group()
     @addRowOfPipes()
-    @timer = game.time.events.loop 1500, @addRowOfPipes, this
+    @timer = game.time.events.loop 1500, @addRowOfPipes, @
 
     # Add sound effects
     @jumpSound = game.add.audio 'jump'
@@ -52,7 +52,7 @@ class MainState
       @restartGame()
 
     # Collision detection
-    game.physics.arcade.overlap @bird, @pipes, @hitPipe, null, this
+    game.physics.arcade.overlap @bird, @pipes, @hitPipe, null, @
 
     # Rotate the bird
     if @bird.angle < 20
@@ -66,7 +66,7 @@ class MainState
     @jumpSound.play()
 
     # Reset bird rotation
-    animation = game.add.tween this.bird
+    animation = game.add.tween @bird
     animation.to angle: -20, 100
     animation.start()
 
